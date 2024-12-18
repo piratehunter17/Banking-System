@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create New Account</title>
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .main-container {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo {
+      max-width: 50px;
+      margin-right: 10px;
+    }
+
+    .bank-name {
+      font-size: 24px;
+      font-weight: bold;
+      color: #0d3b66;
+    }
+
+    /* Form Styling */
+    .create-account-box {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 24px;
+      color: #0d3b66;
+      margin-bottom: 10px;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: #0d3b66;
+    }
+
+    .input-group input, .input-group select {
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .input-group input:focus, .input-group select:focus {
+      border-color: #0d3b66;
+      outline: none;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #0d3b66;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn-primary:hover {
+      background-color: #09538c;
+    }
+
+    .message {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #0d3b66;
+    }
+
+    .message a {
+      color: #0d3b66;
+      text-decoration: none;
+    }
+
+    .message a:hover {
+      text-decoration: underline;
+    }
+
+    #cardError {
+      color: red;
+      display: none;
+      font-size: 14px;
+    }
+
+    .logo-container img {
+      margin-right: 10px;
+      max-width: 50px;
+      height: auto;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <header>
+      <div class="logo-container">
+        <img src="{{ url_for('static', filename='logoo.png') }}" alt="Logo">
+        <span class="bank-name">TechStar Bank</span>
+      </div>
+    </header>
+
+    <div class="create-account-box">
+      <h2>Create New Account</h2>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="error-message">
+              <p>{{ messages[0] }}</p>
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <form id="createAccountForm" action="/register" method="POST">
+        <div class="input-group">
+          <label for="firstName">Name</label>
+          <input type="text" id="firstName" name="firstName" placeholder="Enter your Name" required>
+        </div>
+
+        <div class="input-group">
+          <label for="debitCardNumber">Debit Card Number</label>
+          <input type="text" id="debitCardNumber" name="debitCardNumber" placeholder="xxxx xxxx xxxx xxxx" maxlength="19" required oninput="formatCardNumber()" />
+          <span id="cardError">Invalid Debit Card Number. Please enter a valid 16-digit number.</span>
+        </div>
+
+        <div class="input-group">
+          <label for="newUsername">Username</label>
+          <input type="text" id="newUsername" name="newUsername" placeholder="Choose a username" required>
+        </div>
+
+        <div class="input-group">
+          <label for="newPassword">Password</label>
+          <input type="password" id="newPassword" name="newPassword" placeholder="Choose a password" required>
+        </div>
+
+        <div class="input-group">
+          <label for="role">Select Role</label>
+          <select id="role" name="role" required>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-primary">Create Account</button>
+      </form>
+
+      <p class="message">Already have an account? <a href="login">Login here</a></p>
+    </div>
+  </div>
+
+  <script>
+    function formatCardNumber() {
+      const input = document.getElementById('debitCardNumber');
+      let value = input.value.replace(/\D/g, '');  // Remove non-digit characters
+      if (value.length > 16) {
+        value = value.slice(0, 16); // Limit to 16 digits
+      }
+
+      const formattedValue = value.replace(/(\d{4})(?=\d)/g, '$1 ').trim();
+      input.value = formattedValue;
+
+      const cardPattern = /^\d{16}$/;
+      const cardError = document.getElementById('cardError');
+      if (value.length === 16 && cardPattern.test(value)) {
+        cardError.style.display = 'none';
+      } else {
+        cardError.style.display = 'block';
+      }
+    }
+
+    document.getElementById('createAccountForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const debitCardNumber = document.getElementById('debitCardNumber').value.replace(/\s/g, '');
+      const cardError = document.getElementById('cardError');
+      const cardPattern = /^\d{16}$/;
+
+      if (!cardPattern.test(debitCardNumber)) {
+        cardError.style.display = 'block';
+      } else {
+        cardError.style.display = 'none';
+        this.submit();
+      }
+    });
+  </script>
+</body>
+</html>

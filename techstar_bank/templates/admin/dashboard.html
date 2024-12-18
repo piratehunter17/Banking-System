@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background-color: #1B2A41;
+      color: #FFFFFF;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #0D1B2A;
+      padding: 20px 40px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    header .logo {
+      display: flex;
+      align-items: center;
+      font-size: 28px;
+      font-weight: bold;
+      color: #E31C2B;
+    }
+
+    header .logo img {
+      height: 60px;
+      width: 60px;
+      margin-right: 10px;
+    }
+
+    header nav {
+      display: flex;
+      gap: 30px;
+    }
+
+    header nav a {
+      color: #FFFFFF;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    header nav a:hover {
+      color: #E31C2B;
+    }
+
+    .main-content {
+      padding: 20px;
+    }
+
+    .user-list {
+      margin-top: 20px;
+    }
+
+    .user-list table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .user-list th, .user-list td {
+      padding: 15px;
+      text-align: left;
+      border: 1px solid #3A4C73;
+    }
+
+    .user-list th {
+      background-color: #0D1B2A;
+    }
+
+    .user-list tr:nth-child(even) {
+      background-color: #2C3E50;
+    }
+
+    .user-list tr:hover {
+      background-color: #4E5B73;
+    }
+
+    footer {
+      background-color: #0D1B2A;
+      padding: 15px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+      <img src="{{ url_for('static', filename='logoo.png') }}" alt="Logo">
+    <span>TechStar Bank</span>
+  </div>
+  <nav>
+    <a href="#">Dashboard</a>
+    <a href="#">Transfers</a>
+    <a href="#">Settings</a>
+    <a href="#">Reports</a>
+  </nav>
+</header>
+
+<div class="main-content">
+  <h1>User List</h1>
+  <div class="user-list">
+    <table>
+      <thead>
+        <tr>
+          <th>S No</th>
+          <th>User ID</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td>{{ user['id'] }}</td>
+          <td>{{ user['username'] }}</td>
+          <td>
+            <a href="/admin/user/{{ user['id'] }}">View</a> |
+            <a href="/admin/user/{{ user['id'] }}/delete" onclick="return confirm('Are you sure?');">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2024 TechStar Bank. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

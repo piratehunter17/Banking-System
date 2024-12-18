@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechStar Bank</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+    body {
+      background-color: #1B2A41;
+      color: #FFFFFF;
+      padding: 0;
+      font-size: 16px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #0D1B2A;
+      padding: 20px 40px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+    header .logo {
+      display: flex;
+      align-items: center;
+      font-size: 28px;
+      font-weight: bold;
+      color: #E31C2B;
+    }
+    header .logo img {
+      height: 60px;
+      width: 60px;
+      margin-right: 10px;
+    }
+    header .logo span {
+      line-height: 1; 
+    }
+    nav {
+      display: flex;
+      gap: 30px;
+    }
+    nav a {
+      color: #FFFFFF;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #E31C2B;
+    }
+    .user-icon {
+      position: relative;
+      cursor: pointer;
+      margin-left: 20px;
+      padding: 10px; 
+    }
+    .user-icon img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 50px;
+      right: 0;
+      background-color: #2C3E50;
+      border-radius: 8px;
+      padding: 10px;
+      width: 200px;
+    }
+    .dropdown a {
+      color: #FFFFFF;
+      padding: 10px;
+      display: block;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+    .dropdown a:hover {
+      background-color: #E31C2B;
+    }
+    .user-icon:hover .dropdown {
+      display: block;
+    }
+    .hero {
+      height: 100vh;
+      background: linear-gradient(135deg, #2C3E50, #4E5B73);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+    }
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 20px;
+      margin-bottom: 40px;
+    }
+    .cta-btn {
+      background-color: #E31C2B;
+      color: #FFFFFF;
+      padding: 15px 30px;
+      font-size: 20px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .cta-btn:hover {
+      background-color: #A10D1A;
+    }
+    .services {
+      display: flex;
+      justify-content: space-around;
+      padding: 40px 20px;
+      background-color: #0D1B2A;
+    }
+    .service {
+      background-color: #1B2A41;
+      padding: 20px;
+      width: 30%;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+    .service:hover {
+      transform: translateY(-10px);
+    }
+    .service h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .service p {
+      font-size: 16px;
+    }
+    .footer {
+      background-color: #0D1B2A;
+      padding: 30px 20px;
+      text-align: center;
+      color: #FFFFFF;
+      font-size: 14px;
+    }
+    .footer a {
+      color: #E31C2B;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    .testimonial {
+      background-color: #1B2A41;
+      padding: 50px 20px;
+      color: #FFFFFF;
+      text-align: center;
+    }
+    .testimonial h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+    .testimonial p {
+      font-size: 18px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .cta-section {
+      background-color: #c61f2d;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-size: 32px;
+      color: #FFFFFF;
+      margin-bottom: 20px;
+    }
+    .cta-section .cta-btn {
+      background-color: #1B2A41;
+      color: #FFFFFF;
+      padding: 15px 30px;
+      font-size: 20px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .cta-section .cta-btn:hover {
+      background-color: #A10D1A;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <img src="{{ url_for('static', filename='logoo.png') }}" alt="Logo">
+      <span>TechStar Bank</span>
+    </div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Services</a>
+      <a href="#">About Us</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="user-icon">
+      <img src="{{ url_for('static', filename='user.png') }}" alt="User">
+      <div class="dropdown">
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+      </div>
+    </div>
+    
+  </header>
+
+  <div class="hero">
+    <div>
+      <h1>Welcome to TechStar Bank</h1>
+      <p>Your trusted partner in financial success.</p>
+      <button class="cta-btn">Open an Account</button>
+    </div>
+  </div>
+
+  <section class="services">
+    <div class="service">
+      <h3>Personal Banking</h3>
+      <p>Manage your personal finances with ease and security. Enjoy high interest rates and low fees.</p>
+    </div>
+    <div class="service">
+      <h3>Business Solutions</h3>
+      <p>Tailored services for businesses of all sizes. Optimize your business with seamless transactions.</p>
+    </div>
+    <div class="service">
+      <h3>Investments</h3>
+      <p>Grow your wealth with strategic investment opportunities and expert advice from our team.</p>
+    </div>
+  </section>
+
+  <section class="testimonial">
+    <h2>What Our Clients Say</h2>
+    <p>"TechStar Bank has completely transformed the way I manage my finances. Their customer service is excellent, and the services they offer are top-notch. Highly recommended!"</p>
+  </section>
+
+  <section class="cta-section">
+    <h2>Ready to take control of your financial future?</h2>
+    <button class="cta-btn">Start Now</button>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; 2024 TechStar Bank. All Rights Reserved.</p>
+    <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+  </footer>
+
+  <script>
+    const userIcon = document.querySelector('.user-icon');
+    const dropdown = document.querySelector('.dropdown');
+
+    userIcon.addEventListener('mouseover', () => {
+      dropdown.style.display = 'block';
+    });
+
+    userIcon.addEventListener('mouseout', () => {
+      dropdown.style.display = 'none';
+    });
+
+    userIcon.addEventListener('mouseenter', () => {
+      dropdown.style.display = 'block';
+    });
+
+    userIcon.addEventListener('mouseleave', () => {
+      dropdown.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
